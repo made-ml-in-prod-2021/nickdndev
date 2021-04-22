@@ -1,0 +1,7 @@
+black
+click
+hydra-core
+pandas
+pandas-profiling
+pytest
+scikit-learn
