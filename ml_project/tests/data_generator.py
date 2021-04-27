@@ -31,6 +31,6 @@ def generate_dataset(dataset_size=20, seed: int = 15) -> pd.DataFrame:
     ).astype(int)
     fake_dataset["slope"] = __generate_random(size=dataset_size, low=0, high=4)
     fake_dataset["ca"] = __generate_random(size=dataset_size, low=0, high=3)
-    fake_dataset["thal"] = __generate_random(size=dataset_size, low=0, high=3)
+    fake_dataset["thal"] = __generate_random(size=dataset_size, low=0, high=7)
     fake_dataset["target"] = __generate_by_binomial_distribution(size=dataset_size, n=1, p=0.37)
     return fake_dataset

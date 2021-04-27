@@ -1,0 +1,5 @@
+defaults:
+  - app: app_config
+  - split: simple_split
+  - transformer: transformer
+  - model: naive_bayes
