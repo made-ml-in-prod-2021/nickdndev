@@ -12,24 +12,6 @@ def test_separate_target(dataset: pd.DataFrame, target_name: str):
     assert len(data_without_target) == len(target)
 
 
-#
-# @pytest.fixture
-# def feature_params(
-#         categorical_features: List[str],
-#         features_to_drop: List[str],
-#         numerical_features: List[str],
-#         target_col: str,
-# ) -> FeatureParams:
-#     params = FeatureParams(
-#         categorical_features=categorical_features,
-#         numerical_features=numerical_features,
-#         features_to_drop=features_to_drop,
-#         target_col=target_col,
-#         use_log_trick=True,
-#     )
-#     return params
-
-
 def test_make_features(
         transformer_config: TransformerConfig, dataset_path: str,
 ):

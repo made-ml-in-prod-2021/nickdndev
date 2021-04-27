@@ -1,7 +1,7 @@
 from hydra.core.config_store import ConfigStore
 
 from .config import Config
-from .main_config import TrainedModelConfig, AppConfig
+from .app_config import TrainedModelConfig, AppConfig
 from .model_config import LogisticRegressionConfig
 from .split_config import SplitConfig
 
