@@ -11,6 +11,6 @@ from .transformer_config import TransformerConfig
 @dataclass
 class Config:
     split: SplitConfig = MISSING
-    transformer: TransformerConfig =  MISSING
+    transformer: TransformerConfig = MISSING
     app: AppConfig = MISSING
     model: ModelConfig = MISSING

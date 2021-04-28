@@ -79,12 +79,3 @@ def train_pipeline(cfg: Config) -> None:
         logger.info(f"Finished saving metrics to {cfg.app.trained_model.metric_dir}")
 
     logger.info("Finished train pipeline")
-
-
-@hydra.main(config_path="../../conf", config_name="config")
-def main(cfg: Config):
-    train_pipeline(cfg)
-
-
-if __name__ == "__main__":
-    main()
