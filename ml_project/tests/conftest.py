@@ -15,7 +15,7 @@ from src.model.train_pipeline import train_pipeline
 
 @pytest.fixture()
 def dataset_path() -> str:
-    path = os.path.join(os.path.dirname(__file__), "dataset.zip")
+    path = os.path.join(os.path.dirname(__file__),  "dataset.zip")
     data = generate_dataset()
     data.to_csv(path, compression="zip")
     return path
