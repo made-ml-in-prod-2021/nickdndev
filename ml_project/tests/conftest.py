@@ -6,26 +6,16 @@ import pandas as pd
 import pytest
 from hydra.experimental import compose, initialize
 
-from data_generator import generate_dataset
-from ml_project.configs import SplitConfig, TransformerConfig, Config
-from ml_project.configs.transformer_config import FeatureParams, FeatureScale
-from ml_project.data import read_data
-from ml_project.model.train_pipeline import train_pipeline
-
-
-@pytest.fixture()
-def src_path() -> str:
-    return "ml_project"
-
-
-@pytest.fixture()
-def tests_path() -> str:
-    return "tests"
+from tests.data_generator import generate_dataset
+from src.configs import SplitConfig, TransformerConfig, Config
+from src.configs import FeatureParams, FeatureScale
+from src.data import read_data
+from src.model.train_pipeline import train_pipeline
 
 
 @pytest.fixture()
 def dataset_path() -> str:
-    path = os.path.join(os.path.dirname(__file__), "data_sample.zip")
+    path = os.path.join(os.path.dirname(__file__), "dataset.zip")
     data = generate_dataset()
     data.to_csv(path, compression="zip")
     return path

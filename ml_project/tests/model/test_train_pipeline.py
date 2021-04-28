@@ -2,8 +2,8 @@ import os
 
 import yaml
 
-from ml_project.configs import Config
-from ml_project.model.train_pipeline import train_pipeline
+from src.configs import Config
+from src.model.train_pipeline import train_pipeline
 
 
 def test_train_pipeline(train_config: Config):

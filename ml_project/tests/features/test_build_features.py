@@ -1,9 +1,9 @@
 import pandas as pd
 
-from ml_project.configs.transformer_config import TransformerConfig
-from ml_project.data import read_data
-from ml_project.features import separate_target
-from ml_project.features.build_features import build_transformer, make_features
+from src.configs import TransformerConfig
+from src.data import read_data
+from src.features import separate_target
+from src.features import build_transformer, make_features
 
 
 def test_separate_target(dataset: pd.DataFrame, target_name: str):

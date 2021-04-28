@@ -9,11 +9,11 @@ import hydra
 import yaml
 from sklearn.metrics import classification_report
 
-from ml_project.configs import Config, SplitConfig, TrainedModelConfig
-from ml_project.data import read_data, split_train_val_data
-from ml_project.features import separate_target
-from ml_project.features.build_features import build_transformer, make_features
-from ml_project.utils import get_path_from_root
+from src.configs import Config, SplitConfig, TrainedModelConfig
+from src.data import read_data, split_train_val_data
+from src.features import separate_target
+from src.features import build_transformer, make_features
+from utils import get_path_from_root
 
 logger = logging.getLogger(__name__)
 
@@ -81,7 +81,7 @@ def train_pipeline(cfg: Config) -> None:
     logger.info("Finished train pipeline")
 
 
-@hydra.main(config_path="../conf", config_name="config")
+@hydra.main(config_path="../../conf", config_name="config")
 def main(cfg: Config):
     train_pipeline(cfg)
 

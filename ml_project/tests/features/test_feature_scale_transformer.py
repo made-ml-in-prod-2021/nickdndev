@@ -2,10 +2,10 @@ import pandas as pd
 import pytest
 from pandas._testing import assert_series_equal
 
-from ml_project.configs import TransformerConfig
-from ml_project.configs.transformer_config import FeatureScale
-from ml_project.features import FeatureScaleTransformer
-from ml_project.features import separate_target
+from src.configs import TransformerConfig
+from src.configs import FeatureScale
+from src.features import FeatureScaleTransformer
+from src.features import separate_target
 
 
 def test_scale_feature_transformer(

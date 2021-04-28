@@ -5,9 +5,9 @@ from .app_config import TrainedModelConfig, AppConfig
 from .model_config import LogisticRegressionConfig
 from .split_config import SplitConfig
 
-__all__ = ["Config", "TransformerConfig", "SplitConfig", "TrainedModelConfig"]
+__all__ = ["Config", "TransformerConfig", "SplitConfig", "TrainedModelConfig", "FeatureParams", "FeatureScale"]
 
-from .transformer_config import TransformerConfig
+from .transformer_config import TransformerConfig, FeatureParams, FeatureScale
 
 cs = ConfigStore.instance()
 cs.store(name="config", node=Config)

@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from ml_project.features.build_features import process_categorical_features
+from src.features import process_categorical_features
 
 
 @pytest.fixture()

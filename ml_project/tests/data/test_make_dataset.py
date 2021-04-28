@@ -1,7 +1,7 @@
 import pandas as pd
 
-from ml_project.configs import SplitConfig
-from ml_project.data.make_dataset import read_data, split_train_val_data
+from src.configs import SplitConfig
+from src.data import read_data, split_train_val_data
 
 
 def test_load_data(dataset_path: str, target_col: str):

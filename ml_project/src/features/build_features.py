@@ -8,8 +8,8 @@ from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
-from ml_project.configs.transformer_config import FeatureParams, TransformerConfig
-from ml_project.features.transformer import FeatureScaleTransformer
+from src.configs import FeatureParams, TransformerConfig
+from src.features.transformer import FeatureScaleTransformer
 
 logger = logging.getLogger(__name__)
 

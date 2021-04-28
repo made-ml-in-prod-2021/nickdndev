@@ -3,7 +3,7 @@ import pickle
 import click
 import pandas as pd
 
-from ml_project.data import read_data
+from src.data import read_data
 
 
 def predict(model: dict, data: pd.DataFrame) -> pd.Series:
