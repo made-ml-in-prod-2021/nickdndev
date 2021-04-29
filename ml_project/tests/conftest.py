@@ -6,11 +6,11 @@ import pandas as pd
 import pytest
 from hydra.experimental import compose, initialize
 
-from tests.data_generator import generate_dataset
-from src.configs import SplitConfig, TransformerConfig, Config
 from src.configs import FeatureParams, FeatureScale
+from src.configs import SplitConfig, TransformerConfig, Config
 from src.data import read_data
 from src.model.train_pipeline import train_pipeline
+from tests.data_generator import generate_dataset
 
 
 @pytest.fixture()

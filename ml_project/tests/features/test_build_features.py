@@ -2,8 +2,8 @@ import pandas as pd
 
 from src.configs import TransformerConfig
 from src.data import read_data
-from src.features import split_target
 from src.features import build_transformer, make_features
+from src.features import split_target
 
 
 def test_separate_target(dataset: pd.DataFrame, target_col: str):

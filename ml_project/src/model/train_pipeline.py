@@ -11,8 +11,8 @@ from sklearn.metrics import classification_report
 
 from src.configs import Config, SplitConfig, TrainedModelConfig
 from src.data import read_data, split_train_val_data
-from src.features import split_target
 from src.features import build_transformer, make_features
+from src.features import split_target
 from src.utils import construct_abs_path
 
 logger = logging.getLogger(__name__)

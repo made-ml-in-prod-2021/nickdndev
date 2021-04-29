@@ -2,25 +2,34 @@
 
 # Made Production ML
 
-Installation: 
+Installation:
+
 ~~~
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 ~~~
+
 Fit model:
+
 ~~~
  python -m src.model.fit
 ~~~
+
 Predict:
+
 ~~~
  python -m src.model.predict --prediction_path "..." --data_path "..." --model_path "..."
 ~~~
+
 Test:
+
 ~~~
  pytest ml_project/tests/
 ~~~
+
 Data profiling:
+
 ~~~
  python -m src.data_report.report
 ~~~
@@ -67,10 +76,10 @@ Project Organization
     │
     └── tests              <- unit tests
 
-
 --------
 
 ### References:
+
 - [Pandas Profiling](https://towardsdatascience.com/exploratory-data-analysis-with-pandas-profiling-de3aae2ddff3)
 - [Generate dataset](https://www.caktusgroup.com/blog/2020/04/15/quick-guide-generating-fake-data-with-pandas/)
 - [CI Github](https://docs.github.com/en/actions/guides/setting-up-continuous-integration-using-workflow-templates)

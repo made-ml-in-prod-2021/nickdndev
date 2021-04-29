@@ -2,8 +2,8 @@ import pandas as pd
 import pytest
 from pandas._testing import assert_series_equal
 
-from src.configs import TransformerConfig
 from src.configs import FeatureScale
+from src.configs import TransformerConfig
 from src.features import FeatureScaleTransformer
 from src.features import split_target
 
