@@ -15,7 +15,7 @@ feature_params:
     - 'thalach'
     - 'oldpeak'
     - 'ca'
-  target_col: 'restecg'
+  target_col: 'target'
 feature_scale:
   scale:
     { }

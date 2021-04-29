@@ -7,7 +7,7 @@ from pandas_profiling import ProfileReport
 
 from src.configs import Config
 from src.data import read_data
-from src.utils import get_path_from_root
+from src.utils import construct_abs_path
 
 logger = logging.getLogger(__name__)
 
@@ -16,12 +16,12 @@ logger = logging.getLogger(__name__)
 def main(cfg: Config) -> None:
     logger.info("Starting data profiling...")
 
-    data = read_data(get_path_from_root(cfg.data_profiling.input_data_path))
+    data = read_data(construct_abs_path(cfg.data_profiling.input_data_path))
     prof = ProfileReport(data)
 
-    report_dir = get_path_from_root(cfg.data_profiling.report_dir)
-    Path(report_dir).mkdir(parents=True, exist_ok=True)
-    prof.to_file(os.path.join(report_dir, cfg.data_profiling.report_file_name))
+    data_profiling_dir = construct_abs_path(cfg.data_profiling.report_dir)
+    Path(data_profiling_dir).mkdir(parents=True, exist_ok=True)
+    prof.to_file(os.path.join(data_profiling_dir, cfg.data_profiling.report_file_name))
 
     logger.info("Finished data profiling")
 

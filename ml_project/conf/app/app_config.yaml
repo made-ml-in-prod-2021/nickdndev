@@ -1,11 +1,10 @@
 # @package _group_
 random_seed: 42
-input_data_path: "data/raw/archive.zip"
-target_name: "target"
+input_data_path: "data/raw/data.zip"
 trained_model:
   model_dir: "models"
   model_name: "model.pickle"
   replace_model: True
-  metric_dir: "reports/experiments"
+  metric_dir: "data/predictions"
   metrics_file_name: "metrics.yaml"
 

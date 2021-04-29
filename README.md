@@ -8,54 +8,64 @@ python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 ~~~
-Usage:
+Fit model:
 ~~~
-python ml_example/fit.py configs/train_config.yaml
+ python -m src.model.fit
 ~~~
-
+Predict:
+~~~
+ python -m src.model.predict --prediction_path "..." --data_path "..." --model_path "..."
+~~~
 Test:
 ~~~
-pytest ml_project/tests/
+ pytest ml_project/tests/
 ~~~
+Data profiling:
+~~~
+ python -m src.data_report.report
+~~~
+
 Project Organization
 ------------
 
-    ├── LICENSE
-    ├── Makefile           <- Makefile with commands like `make data` or `make train`
     ├── README.md          <- The top-level README for developers using this project.
+    │
+    ├── conf               <- Configuration files.
+    │
     ├── data
-    │   ├── external       <- Data from third party sources.
-    │   ├── interim        <- Intermediate data that has been transformed.
-    │   ├── processed      <- The final, canonical data sets for modeling.
-    │   └── raw            <- The original, immutable data dump.
+    │   ├── predictions    <- Predictions from the model.
+    │   ├── profiling      <- Data profiling.
+    │   └── raw            <- The original, immutable data dump.
     │
-    ├── docs               <- A default Sphinx project; see sphinx-doc.org for details
-    │
-    ├── models             <- Trained and serialized models, model predictions, or model summaries
+    ├── models             <- Trained and serialized models.
     │
     ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
     │                         the creator's initials, and a short `-` delimited description, e.g.
     │                         `1.0-jqp-initial-data-exploration`.
     │
-    ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
+    ├── outputs            <- Outputs from hydra.
     │
     ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
-    │   └── figures        <- Generated graphics and figures to be used in reporting
+    │   └── report         <- Data profillig by Pandas
     │
-    ├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
-    │                         generated with `pip freeze > requirements.txt`
+    ├── requirements.txt   <- The requirements file for reproducing the analysis environment.
     │
-    ├── setup.py           <- makes project pip installable (pip install -e .) so src can be imported
-    ├── ml_project                <- Source code for use in this project.
-    │   ├── __init__.py    <- Makes src a Python module
+    └── src                <- Source code for use in this project.
+    │   ├── __init__.py    <- Makes src a Python module
     │   │
-    │   ├── data           <- code to download or generate data
+    │   ├── configs         <- configuration dataclasses for type checking
     │   │
-    │   ├── features       <- code to turn raw data into features for modeling
+    │   ├── data           <- code to download or generate data
     │   │
-    │   ├── models         <- code to train models and then use trained models to make
+    │   ├── features       <- code to turn raw data into features for modeling
     │   │
-    └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
+    │   ├── model          <- code to train models and then use trained models to make predictions
+    │   │
+    │   ├── data report    <- code for eda generation
+    │   │
+    │   └── utils          <- miscellaneous util functions
+    │
+    └── tests              <- unit tests
 
 
 --------

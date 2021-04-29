@@ -11,15 +11,15 @@ from sklearn.metrics import classification_report
 
 from src.configs import Config, SplitConfig, TrainedModelConfig
 from src.data import read_data, split_train_val_data
-from src.features import separate_target
+from src.features import split_target
 from src.features import build_transformer, make_features
-from src.utils import get_path_from_root
+from src.utils import construct_abs_path
 
 logger = logging.getLogger(__name__)
 
 
 def serialize_model(model: Any, cfg: TrainedModelConfig):
-    path = get_path_from_root(cfg.model_dir)
+    path = construct_abs_path(cfg.model_dir)
     Path(path).mkdir(parents=True, exist_ok=True)
 
     with open(os.path.join(path, cfg.model_name), "wb") as weights_file:
@@ -27,7 +27,7 @@ def serialize_model(model: Any, cfg: TrainedModelConfig):
 
 
 def save_metrics(metrics: dict, cfg: TrainedModelConfig):
-    path = get_path_from_root(os.path.join(cfg.metric_dir))
+    path = construct_abs_path(os.path.join(cfg.metric_dir))
 
     Path(path).mkdir(parents=True, exist_ok=True)
 
@@ -37,16 +37,16 @@ def save_metrics(metrics: dict, cfg: TrainedModelConfig):
 
 def train_pipeline(cfg: Config) -> None:
     logger.info("Started train pipeline")
-    data = read_data(get_path_from_root(cfg.app.input_data_path))
+    data = read_data(construct_abs_path(cfg.app.input_data_path))
 
     logger.debug(f"Size dataset: {data.shape}")
 
     train_data, val_data = split_train_val_data(data, typing.cast(SplitConfig, cfg.split))
 
-    train_features, train_target = separate_target(train_data, cfg.app.target_name)
-    val_features, val_target = separate_target(val_data, cfg.app.target_name)
+    train_features, train_target = split_target(train_data, cfg.transformer.feature_params.target_col)
+    val_features, val_target = split_target(val_data, cfg.transformer.feature_params.target_col)
 
-    logger.info(f"Transforming dataset.....")
+    logger.info(f"Transforming dataset...")
 
     transformer = build_transformer(cfg.transformer)
     transformer.fit(train_features)

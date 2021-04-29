@@ -6,7 +6,7 @@ from src.data import read_data, split_train_val_data
 
 def test_load_data(dataset_path: str, target_col: str):
     data = read_data(dataset_path)
-    assert len(data) > 10
+    assert len(data) > 11
     assert target_col in data.keys()
 
 

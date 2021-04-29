@@ -8,20 +8,16 @@ from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
-from src.configs import FeatureParams, TransformerConfig
+from src.configs import TransformerConfig
 from src.features.transformer import FeatureScaleTransformer
 
 logger = logging.getLogger(__name__)
 
 
-def separate_target(
+def split_target(
         data: pd.DataFrame, target_name: str
 ) -> Tuple[pd.DataFrame, pd.Series]:
-    logger.info("Started separating target")
-    target = data[target_name]
-    data_without_target = data.drop(target_name, axis=1)
-    logger.info("Finished separating target")
-    return data_without_target, target
+    return data.drop(target_name, axis=1), data[target_name]
 
 
 def process_categorical_features(categorical_df: pd.DataFrame) -> pd.DataFrame:
@@ -51,7 +47,6 @@ def build_numerical_pipeline(transfer_config: TransformerConfig) -> Pipeline:
 
 
 def make_features(transformer: ColumnTransformer, df: pd.DataFrame) -> pd.DataFrame:
-    # return pd.DataFrame(transformer.transform(df).toarray())
     return pd.DataFrame(transformer.transform(df))
 
 
@@ -71,10 +66,3 @@ def build_transformer(transfer_config: TransformerConfig) -> ColumnTransformer:
         ]
     )
     return transformer
-
-
-def extract_target(df: pd.DataFrame, params: FeatureParams) -> pd.Series:
-    target = df[params.target_col]
-    if params.use_log_trick:
-        target = pd.Series(np.log(target.to_numpy()))
-    return target

@@ -16,5 +16,4 @@ class TrainedModelConfig:
 class AppConfig:
     input_data_path: str = MISSING
     random_seed: int = MISSING
-    target_name: str = MISSING
     trained_model: TrainedModelConfig = MISSING
