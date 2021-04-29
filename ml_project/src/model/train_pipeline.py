@@ -13,7 +13,7 @@ from src.configs import Config, SplitConfig, TrainedModelConfig
 from src.data import read_data, split_train_val_data
 from src.features import separate_target
 from src.features import build_transformer, make_features
-from utils import get_path_from_root
+from src.utils import get_path_from_root
 
 logger = logging.getLogger(__name__)
 

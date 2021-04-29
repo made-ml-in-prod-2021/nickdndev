@@ -15,7 +15,6 @@ class TrainedModelConfig:
 @dataclass
 class AppConfig:
     input_data_path: str = MISSING
-    eda_dir: str = MISSING
     random_seed: int = MISSING
     target_name: str = MISSING
     trained_model: TrainedModelConfig = MISSING

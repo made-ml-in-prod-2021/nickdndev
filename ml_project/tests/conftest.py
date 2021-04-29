@@ -97,12 +97,9 @@ def train_config(model_dir, dataset_path, categorical_features, numerical_featur
         pass
     cfg = compose(config_name="config")
     cfg = cast(Config, cfg)
-    # cfg.app.track.experiment_dir_name_format = "test_experiment"
     cfg.app.trained_model.metric_dir = model_dir
     cfg.app.trained_model.model_dir = model_dir
     cfg.app.trained_model.replace_model = True
-    # cfg.app.track.track_experiment = True
-    # cfg.app.track.save_model_weights = True
     cfg.app.input_data_path = dataset_path
 
     return cfg

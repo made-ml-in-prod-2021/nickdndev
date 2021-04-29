@@ -61,6 +61,7 @@ Project Organization
 --------
 
 ### References:
+- [Pandas Profiling](https://towardsdatascience.com/exploratory-data-analysis-with-pandas-profiling-de3aae2ddff3)
 - [Generate dataset](https://www.caktusgroup.com/blog/2020/04/15/quick-guide-generating-fake-data-with-pandas/)
 - [CI Github](https://docs.github.com/en/actions/guides/setting-up-continuous-integration-using-workflow-templates)
 - [Github Badge for CI](https://docs.github.com/en/actions/managing-workflow-runs/adding-a-workflow-status-badge#using-the-workflow-file-name)
