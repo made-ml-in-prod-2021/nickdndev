@@ -1,5 +1,3 @@
-import os
-
 import pandas as pd
 from fastapi.testclient import TestClient
 from src.app import app
