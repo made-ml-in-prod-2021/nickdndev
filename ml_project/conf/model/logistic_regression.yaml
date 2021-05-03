@@ -1,5 +1,0 @@
-# @package _group_
-_target_: sklearn.linear_model.LogisticRegression
-random_state: 45
-C: 1.1
-max_iter: 80

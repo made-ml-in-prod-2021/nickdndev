@@ -1,5 +1,0 @@
-# @package _group_
-input_data_path: ""
-report_dir: ""
-report_file_name: "data_profiling.html"
-title: "Data Profiling Report"

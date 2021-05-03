@@ -3,7 +3,7 @@ import pandas as pd
 import requests
 
 if __name__ == "__main__":
-    data = pd.read_csv("data.csv")
+    data = pd.read_csv("../data.csv")
     request_features = list(data.columns)
     for i in range(100):
         request_data = [

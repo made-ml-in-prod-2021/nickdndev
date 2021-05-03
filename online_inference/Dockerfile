@@ -2,8 +2,8 @@ FROM python:3.9
 COPY requirements.txt ./requirements.txt
 RUN pip install -r requirements.txt
 
-COPY model.pkl /model.pkl
-COPY app.py /app.py
+COPY model/model.pkl /model.pkl
+COPY src/app.py /app.py
 
 WORKDIR .
 
