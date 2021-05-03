@@ -14,7 +14,8 @@ logger = logging.getLogger(__name__)
 
 def load_object(path: str) -> Pipeline:
     with open(path, "rb") as f:
-        return pickle.load(f)
+        model  = pickle.load(f)
+        return model
         # return dill.load(f)
 
 
