@@ -1,11 +1,11 @@
-FROM python:3.6-stretch
+FROM python:3.9
 COPY requirements.txt ./requirements.txt
 RUN pip install -r requirements.txt
 
 COPY model.pkl /model.pkl
-COPY src/app.py src/app.py
+COPY app.py /app.py
 
-WORKDIR /src
+WORKDIR .
 
 ENV PATH_TO_MODEL="/model.pkl"
 

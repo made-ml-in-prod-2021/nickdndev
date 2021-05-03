@@ -2,7 +2,6 @@ import logging
 import os
 import pickle
 from typing import List, Union, Optional
-
 import numpy as np
 import pandas as pd
 import uvicorn
@@ -16,6 +15,7 @@ logger = logging.getLogger(__name__)
 def load_object(path: str) -> Pipeline:
     with open(path, "rb") as f:
         return pickle.load(f)
+        # return dill.load(f)
 
 
 class HousePricesModel(BaseModel):
