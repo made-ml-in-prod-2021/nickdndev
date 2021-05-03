@@ -6,7 +6,9 @@ from typing import List, Union, Optional
 import pandas as pd
 import uvicorn
 from fastapi import FastAPI
+from fastapi.exceptions import RequestValidationError
 from pydantic import BaseModel, conlist
+from starlette.responses import PlainTextResponse
 
 logger = logging.getLogger(__name__)
 
@@ -18,7 +20,7 @@ def load_object(path: str) -> dict:
 
 
 class DiagnosisRequest(BaseModel):
-    data: List[conlist(Union[float, str, None], min_items=10, max_items=20)]
+    data: List[conlist(Union[float, str], min_items=10, max_items=20)]
     features: List[str]
 
 
@@ -30,9 +32,7 @@ class DiagnosisResponse(BaseModel):
 model: Optional[dict] = None
 
 
-def make_predict(
-        data: List, features: List[str], model: dict,
-) -> List[DiagnosisResponse]:
+def make_predict(data: List, features: List[str], model: dict, ) -> List[DiagnosisResponse]:
     data = pd.DataFrame(data, columns=features)
 
     transformer = model["transformer"]
@@ -47,6 +47,11 @@ def make_predict(
 
 
 app = FastAPI()
+
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request, exc):
+    return PlainTextResponse(str(exc), status_code=400)
 
 
 @app.get("/")
