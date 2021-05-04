@@ -1,20 +1,17 @@
 import logging
 import os
 import pickle
-from typing import List, Union, Optional
-import numpy as np
+from typing import List, Optional
+
 import pandas as pd
 import uvicorn
 from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
-from pydantic import BaseModel, conlist, validator
 from starlette.responses import PlainTextResponse
 
-logger = logging.getLogger(__name__)
+from entites import DiagnosisResponse, DiagnosisRequest
 
-# In production this features should be in config file
-FEATURES_MODELS = {'age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach', 'exang', 'oldpeak', 'slope',
-                   'ca', 'thal'}
+logger = logging.getLogger(__name__)
 
 
 def load_object(path: str) -> dict:
@@ -23,42 +20,22 @@ def load_object(path: str) -> dict:
         return model
 
 
-class DiagnosisRequest(BaseModel):
-    data: List[conlist(Union[float, str], min_items=1, max_items=20)]
-    features: List[str]
-
-    @validator('features')
-    def validate_model_features(cls, features):
-        if not set(features).issuperset(FEATURES_MODELS):
-            raise ValueError(f'Invalid features! Valid features are: {FEATURES_MODELS}')
-        return features
-
-    @validator('data')
-    def validate_number_data_columns_and_features(cls, data):
-        if np.array(data).shape[1] != len(FEATURES_MODELS):
-            raise ValueError(f'Invalid columns number for data! Valid numbers are: {len(FEATURES_MODELS)}')
-        return data
-
-
-class DiagnosisResponse(BaseModel):
-    id: str
-    diagnosis: int
-
-
 model: Optional[dict] = None
 
 
 def make_predict(data: List, features: List[str], model: dict, ) -> List[DiagnosisResponse]:
     data = pd.DataFrame(data, columns=features)
+    ids = data['id']
+    features = data.drop(['id'], axis=1)
 
     transformer = model["transformer"]
     classifier = model["classifier"]
 
-    features = transformer.transform(data)
-    predicts = classifier.predict(features)
+    transformed_features = transformer.transform(features)
+    predicts = classifier.predict(transformed_features)
 
     return [
-        DiagnosisResponse(id=idx, diagnosis=int(diagnosis)) for idx, diagnosis in enumerate(predicts)
+        DiagnosisResponse(id=id, diagnosis=int(diagnosis)) for id, diagnosis in zip(ids, predicts)
     ]
 
 

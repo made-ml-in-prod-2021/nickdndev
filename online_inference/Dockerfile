@@ -2,8 +2,10 @@ FROM python:3.8-slim
 COPY docker_requirements.txt ./requirements.txt
 RUN pip install -r requirements.txt
 
-COPY model/model.pkl /model.pkl
-COPY src/app.py /app.py
+COPY model/model.pkl    \
+     src/app.py         \
+     src/entites.py     \
+     ./
 
 WORKDIR .
 

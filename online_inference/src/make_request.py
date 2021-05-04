@@ -4,6 +4,7 @@ import requests
 
 if __name__ == "__main__":
     data = pd.read_csv("../data/heart.csv").drop('target', axis=1)
+    data["id"] = data.index + 1
     request_features = list(data.columns)
     for i in range(2):
         request_data = [

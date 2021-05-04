@@ -14,6 +14,7 @@ def test_prediction(model_path, dataset_path):
     with TestClient(app) as client:
         data_df = pd.read_csv(dataset_path)
         data_df = data_df.drop('target', axis=1)
+        data_df["id"] = data_df.index + 1
 
         data = data_df.values.tolist()[:15]
         features = data_df.columns.tolist()
@@ -50,10 +51,10 @@ def test_prediction_invalid_features(model_path):
 def test_prediction_invalid_columns_data(model_path,dataset_path):
     with TestClient(app) as client:
         data_df = pd.read_csv(dataset_path)
+        data_df = data_df.drop('target', axis=1)
 
         data = data_df.values.tolist()
-
-        data_df = data_df.drop('target', axis=1)
+        data_df["id"] = data_df.index + 1
 
         features = data_df.columns.tolist()
 
