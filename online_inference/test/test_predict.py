@@ -33,3 +33,30 @@ def test_prediction_invalid_data(model_path):
 
         response = client.get("/predict/", json={"data": data, "features": features}, )
         assert response.status_code == 400
+
+
+def test_prediction_invalid_features(model_path):
+    with TestClient(app) as client:
+        data_df = pd.DataFrame(data={'col1': [2, 2], 'col2': [1, 4]})
+
+        data = data_df.values.tolist()
+        features = data_df.columns.tolist()
+
+        response = client.get("/predict/", json={"data": data, "features": features}, )
+        assert response.status_code == 400
+        assert 'Invalid features! Valid features are:' in response.text
+
+
+def test_prediction_invalid_columns_data(model_path,dataset_path):
+    with TestClient(app) as client:
+        data_df = pd.read_csv(dataset_path)
+
+        data = data_df.values.tolist()
+
+        data_df = data_df.drop('target', axis=1)
+
+        features = data_df.columns.tolist()
+
+        response = client.get("/predict/", json={"data": data, "features": features}, )
+        assert response.status_code == 400
+        assert 'Invalid columns number for data! Valid numbers are:' in response.text

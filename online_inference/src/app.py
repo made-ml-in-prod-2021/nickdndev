@@ -2,15 +2,19 @@ import logging
 import os
 import pickle
 from typing import List, Union, Optional
-
+import numpy as np
 import pandas as pd
 import uvicorn
 from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
-from pydantic import BaseModel, conlist
+from pydantic import BaseModel, conlist, validator
 from starlette.responses import PlainTextResponse
 
 logger = logging.getLogger(__name__)
+
+# In production this features should be in config file
+FEATURES_MODELS = {'age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach', 'exang', 'oldpeak', 'slope',
+                   'ca', 'thal'}
 
 
 def load_object(path: str) -> dict:
@@ -20,8 +24,20 @@ def load_object(path: str) -> dict:
 
 
 class DiagnosisRequest(BaseModel):
-    data: List[conlist(Union[float, str], min_items=10, max_items=20)]
+    data: List[conlist(Union[float, str], min_items=1, max_items=20)]
     features: List[str]
+
+    @validator('features')
+    def validate_model_features(cls, features):
+        if not set(features).issuperset(FEATURES_MODELS):
+            raise ValueError(f'Invalid features! Valid features are: {FEATURES_MODELS}')
+        return features
+
+    @validator('data')
+    def validate_number_data_columns_and_features(cls, data):
+        if np.array(data).shape[1] != len(FEATURES_MODELS):
+            raise ValueError(f'Invalid columns number for data! Valid numbers are: {len(FEATURES_MODELS)}')
+        return data
 
 
 class DiagnosisResponse(BaseModel):
