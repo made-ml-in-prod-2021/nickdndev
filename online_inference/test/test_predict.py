@@ -36,6 +36,18 @@ def test_prediction_invalid_data(model_path):
         assert response.status_code == 400
 
 
+def test_prediction_invalid_order_features(model_path):
+    with TestClient(app) as client:
+        data_df = pd.DataFrame(data={'col1': [2, 2], 'col2': [1, 4]})
+
+        data = data_df.values.tolist()
+        features = ['id','age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach', 'exang', 'oldpeak', 'slope',
+                   'ca', 'thal']
+
+        response = client.get("/predict/", json={"data": data, "features": features}, )
+        assert response.status_code == 400
+        assert 'Invalid features or order! Valid features are' in response.text
+
 def test_prediction_invalid_features(model_path):
     with TestClient(app) as client:
         data_df = pd.DataFrame(data={'col1': [2, 2], 'col2': [1, 4]})
@@ -45,7 +57,7 @@ def test_prediction_invalid_features(model_path):
 
         response = client.get("/predict/", json={"data": data, "features": features}, )
         assert response.status_code == 400
-        assert 'Invalid features! Valid features are:' in response.text
+        assert 'Invalid features or order! Valid features are' in response.text
 
 
 def test_prediction_invalid_columns_data(model_path,dataset_path):

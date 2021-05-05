@@ -4,8 +4,8 @@ import numpy as np
 from pydantic import BaseModel, conlist, validator
 
 # In production this features should be in config file
-FEATURES_MODELS = {'age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach', 'exang', 'oldpeak', 'slope',
-                   'ca', 'thal', 'id'}
+FEATURES_MODELS = ['age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach', 'exang', 'oldpeak', 'slope',
+                   'ca', 'thal', 'id']
 
 
 class DiagnosisRequest(BaseModel):
@@ -14,8 +14,8 @@ class DiagnosisRequest(BaseModel):
 
     @validator('features')
     def validate_model_features(cls, features):
-        if not set(features).issuperset(FEATURES_MODELS):
-            raise ValueError(f'Invalid features! Valid features are: {FEATURES_MODELS}')
+        if not features == FEATURES_MODELS:
+            raise ValueError(f'Invalid features or order! Valid features are: {FEATURES_MODELS}')
         return features
 
     @validator('data')

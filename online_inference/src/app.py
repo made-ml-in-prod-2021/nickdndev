@@ -9,7 +9,7 @@ from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
 from starlette.responses import PlainTextResponse
 
-from entites import DiagnosisResponse, DiagnosisRequest
+from .entites import DiagnosisResponse, DiagnosisRequest
 
 logger = logging.getLogger(__name__)
 
