@@ -24,9 +24,7 @@ Fit model:
 Predict:
 
 ~~~
- python -m src.model.predict --prediction_path "..." --data_path "..." --model_path "..."
-
- or use default args path "--data_path", default="data/raw/dataset.zip" "--model_path", default="data/models/model.pickle" "--prediction_path", default="data/predictions/predictions.csv"
+ provide path to prediton and dataset path in app_config.yaml"
 
  python -m src.model.predict  
  
@@ -41,6 +39,8 @@ Test:
 Data profiling:
 
 ~~~
+ provide path to report path and dataset path in profiling.yaml"
+
  python -m src.data_report.report
 ~~~
 

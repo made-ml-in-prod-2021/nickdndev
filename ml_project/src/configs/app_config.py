@@ -14,6 +14,8 @@ class TrainedModelConfig:
 
 @dataclass
 class AppConfig:
-    input_data_path: str = MISSING
+    input_data_dir: str = MISSING
+    prediction_name: str = MISSING
+    prediction_path: str = MISSING
     random_seed: int = MISSING
     trained_model: TrainedModelConfig = MISSING

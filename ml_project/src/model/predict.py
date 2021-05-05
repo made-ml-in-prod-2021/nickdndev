@@ -1,19 +1,23 @@
 import logging.config
+import os
 import pickle
 
-import click
+import hydra
+from src.configs import Config
 from src.data import read_data
 from src.model.predict_pipeline import predict
+from src.utils import construct_abs_path
 
 logger = logging.getLogger(__name__)
 
 
-@click.command()
-@click.option("--data_path", default="data/raw/dataset.zip")
-@click.option("--model_path", default="data/models/model.pickle")
-@click.option("--prediction_path", default="data/predictions/predictions.csv")
-def main(data_path, model_path, prediction_path):
-    logger.info(f"Data path: {data_path}, Model path: {model_path}, prediction_path: {prediction_path}")
+@hydra.main(config_path="../../conf", config_name="config")
+def main(cfg: Config):
+    logger.info(
+        f"Data path: {cfg.app.input_data_path}, Model path: {cfg.app.trained_model.model_dir}, prediction_path: {cfg.app.prediction_dir}")
+    model_path = construct_abs_path(os.path.join(cfg.app.trained_model.model_dir, cfg.app.trained_model.model_name))
+    data_path = construct_abs_path(cfg.app.input_data_path)
+    prediction_path = construct_abs_path(os.path.join(cfg.app.prediction_dir, cfg.app.prediction_name))
 
     with open(model_path, "rb") as model_file:
         model = pickle.load(model_file)
