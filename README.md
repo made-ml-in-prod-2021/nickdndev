@@ -5,6 +5,9 @@
 Installation:
 
 ~~~
+git clone https://github.com/made-ml-in-prod-2021/nickdndev.git
+cd cd ml_project/
+
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
@@ -13,6 +16,8 @@ pip install -r requirements.txt
 Fit model:
 
 ~~~
+ provide path to dataset in app_config.yaml or use default path like:"data/raw/dataset.zip"
+ 
  python -m src.model.fit
 ~~~
 
@@ -20,12 +25,17 @@ Predict:
 
 ~~~
  python -m src.model.predict --prediction_path "..." --data_path "..." --model_path "..."
+
+ or use default args path "--data_path", default="data/raw/dataset.zip" "--model_path", default="data/models/model.pickle" "--prediction_path", default="data/predictions/predictions.csv"
+
+ python -m src.model.predict  
+ 
 ~~~
 
 Test:
 
 ~~~
- pytest ml_project/tests/
+ pytest tests/
 ~~~
 
 Data profiling:

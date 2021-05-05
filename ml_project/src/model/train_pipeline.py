@@ -2,13 +2,11 @@ import logging.config
 import os
 import pickle
 import typing
-from pathlib import Path
 from typing import Any
 
 import hydra
 import yaml
 from sklearn.metrics import classification_report
-
 from src.configs import Config, SplitConfig, TrainedModelConfig
 from src.data import read_data, split_train_val_data
 from src.features import build_transformer, make_features
@@ -20,7 +18,7 @@ logger = logging.getLogger(__name__)
 
 def serialize_model(model: Any, cfg: TrainedModelConfig):
     path = construct_abs_path(cfg.model_dir)
-    Path(path).mkdir(parents=True, exist_ok=True)
+    os.makedirs(path, exist_ok=True)
 
     with open(os.path.join(path, cfg.model_name), "wb") as weights_file:
         pickle.dump(model, weights_file)
@@ -29,7 +27,7 @@ def serialize_model(model: Any, cfg: TrainedModelConfig):
 def save_metrics(metrics: dict, cfg: TrainedModelConfig):
     path = construct_abs_path(os.path.join(cfg.metric_dir))
 
-    Path(path).mkdir(parents=True, exist_ok=True)
+    os.makedirs(path, exist_ok=True)
 
     with open(os.path.join(path, cfg.metrics_file_name), "w") as metrics_file:
         metrics_file.write(yaml.dump(metrics))

@@ -1,6 +1,7 @@
 import pandas as pd
 import pytest
 from pandas._testing import assert_series_equal
+from sklearn.exceptions import NotFittedError
 
 from src.configs import FeatureScale
 from src.configs import TransformerConfig
@@ -32,3 +33,16 @@ def test_scale_feature_transformer_invalid_config(
         data, target = split_target(dataset, target_col)
         FeatureScaleTransformer(transformer_config.feature_scale).fit(data)
     assert str(excinfo.value) == 'Feature thalach scale <=0'
+
+
+def test_scale_feature_transformer_not_fitted(
+        dataset: pd.DataFrame, transformer_config: TransformerConfig, target_col: str
+):
+    with pytest.raises(NotFittedError):
+        feature_scale_name = 'thalach'
+        feature_scale = -2.
+
+        transformer_config.feature_scale = FeatureScale(scale={feature_scale_name: feature_scale})
+        data, target = split_target(dataset, target_col)
+        transformer = FeatureScaleTransformer(transformer_config.feature_scale)
+        transformer.transform(data)

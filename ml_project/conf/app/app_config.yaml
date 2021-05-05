@@ -1,8 +1,8 @@
 # @package _group_
 random_seed: 42
-input_data_path: "data/raw/data.zip"
+input_data_path: "data/raw/dataset.zip"
 trained_model:
-  model_dir: "models"
+  model_dir: "data/models"
   model_name: "model.pickle"
   replace_model: True
   metric_dir: "data/predictions"
