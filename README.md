@@ -6,7 +6,7 @@ Installation:
 
 ~~~
 git clone https://github.com/made-ml-in-prod-2021/nickdndev.git
-cd cd ml_project/
+cd ml_project/
 
 python -m venv .venv
 source .venv/bin/activate
