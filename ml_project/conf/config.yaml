@@ -1,0 +1,6 @@
+defaults:
+  - app: app_config
+  - split: split
+  - transformer: transformer
+  - model: naive_bayes
+  - data_profiling: profiling

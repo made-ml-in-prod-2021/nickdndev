@@ -1,0 +1,12 @@
+# @package _group_
+random_seed: 42
+input_data_path: "data/raw/dataset.zip"
+prediction_dir: "data/predictions"
+prediction_name: "predictions.csv"
+trained_model:
+  model_dir: "data/models"
+  model_name: "model.pickle"
+  replace_model: True
+  metric_dir: "data/predictions"
+  metrics_file_name: "metrics.yaml"
+
