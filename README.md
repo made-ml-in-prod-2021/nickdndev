@@ -16,9 +16,13 @@ pip install -r requirements.txt
 Fit model:
 
 ~~~
- provide path to dataset in app_config.yaml or use default path like:"data/raw/dataset.zip"
+ provide path to dataset in app_config.yaml or use default path like:"data/raw/dataset.zip" 
  
  python -m src.model.fit
+ 
+ use another config 
+ 
+ sample: python -m src.model.fit --config-name config_lr
 ~~~
 
 Predict:

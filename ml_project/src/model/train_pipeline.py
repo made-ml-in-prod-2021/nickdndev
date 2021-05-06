@@ -56,14 +56,14 @@ def train_pipeline(cfg: Config) -> None:
     val_features = make_features(transformer, val_features)
     logger.info(f"Validation features shape :  {val_features.shape}")
 
-    logger.info("Training model...")
+    logger.info(f"Training model {cfg.model['_target_']} ...")
     cls = hydra.utils.instantiate(cfg.model).fit(train_features, train_target)
     logger.info("Model is trained")
 
     logger.info("evaluating model...")
 
     val_predictions = cls.predict(val_features)
-    metrics = classification_report(val_target, val_predictions, output_dict=True)
+    metrics = classification_report(val_target, val_predictions, output_dict=True,zero_division=0)
     logger.debug(f"Metrics: \n{yaml.dump(metrics)}")
 
     model: TrainedModel = TrainedModel(transformer=transformer, classifier=cls)

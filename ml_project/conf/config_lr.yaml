@@ -1,0 +1,6 @@
+defaults:
+  - app: app_config
+  - split: split_0_5
+  - transformer: transformer
+  - model: logistic_regression
+  - data_profiling: profiling
