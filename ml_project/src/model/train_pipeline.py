@@ -2,7 +2,6 @@ import logging.config
 import os
 import pickle
 import typing
-from typing import Any
 
 import hydra
 import yaml
@@ -13,10 +12,12 @@ from src.features import build_transformer, make_features
 from src.features import split_target
 from src.utils import construct_abs_path
 
+from src.model.trained_model import TrainedModel
+
 logger = logging.getLogger(__name__)
 
 
-def serialize_model(model: Any, cfg: TrainedModelConfig):
+def serialize_model(model: TrainedModel, cfg: TrainedModelConfig):
     path = construct_abs_path(cfg.model_dir)
     os.makedirs(path, exist_ok=True)
 
@@ -65,7 +66,7 @@ def train_pipeline(cfg: Config) -> None:
     metrics = classification_report(val_target, val_predictions, output_dict=True)
     logger.debug(f"Metrics: \n{yaml.dump(metrics)}")
 
-    model = {"classifier": cls, "transformer": transformer}
+    model: TrainedModel = TrainedModel(transformer=transformer, classifier=cls)
 
     if cfg.app.trained_model.replace_model:
         logger.info("Start saving model")
