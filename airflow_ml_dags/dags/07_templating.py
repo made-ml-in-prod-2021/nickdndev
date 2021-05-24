@@ -43,7 +43,7 @@ with DAG(
             "month": "{{ execution_date.month }}",
             "day": "{{ execution_date.day }}",
             "hour": "{{ execution_date.hour }}",
-            "output_dir": "/opt/airflow/data",
+            "output_dir": "/opt/airflow_ml_dags/data",
         }
     )
 

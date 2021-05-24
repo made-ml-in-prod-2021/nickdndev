@@ -12,10 +12,10 @@ from airflow.utils.dates import days_ago
 # These args will get passed on to each operator
 # You can override them on a per-task basis during operator initialization
 default_args = {
-    "owner": "airflow",
+    "owner": "airflow_ml_dags",
     "depends_on_past": False,
     "start_date": days_ago(2),
-    "email": ["airflow@example.com"],
+    "email": ["airflow_ml_dags@example.com"],
     "email_on_failure": False,
     "email_on_retry": False,
     "retries": 1,
@@ -24,7 +24,7 @@ default_args = {
 
 
 def _wait_for_file():
-    return os.path.exists("/opt/airflow/data/wait.txt")
+    return os.path.exists("/opt/airflow_ml_dags/data/wait.txt")
 
 
 with DAG(
@@ -34,7 +34,7 @@ with DAG(
     schedule_interval=timedelta(days=1),
 ) as dag:
     t1 = BashOperator(
-        task_id="touch_file_1", bash_command="touch /opt/airflow/data/1.txt",
+        task_id="touch_file_1", bash_command="touch /opt/airflow_ml_dags/data/1.txt",
     )
 
     wait = PythonSensor(
@@ -49,7 +49,7 @@ with DAG(
     t3 = BashOperator(
         task_id="touch_file_3",
         depends_on_past=True,
-        bash_command="touch /opt/airflow/data/2.txt",
+        bash_command="touch /opt/airflow_ml_dags/data/2.txt",
     )
 
     t1 >> wait >> t3

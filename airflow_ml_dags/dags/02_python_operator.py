@@ -11,17 +11,17 @@ from airflow.operators.python import PythonOperator
 
 def _get_pictures():
 
-    pathlib.Path("/opt/airflow/data/images").mkdir(parents=True, exist_ok=True)
+    pathlib.Path("/opt/airflow_ml_dags/data/images").mkdir(parents=True, exist_ok=True)
 
     # Download all pictures in launches.json
-    with open("/opt/airflow/data/launches.json") as f:
+    with open("/opt/airflow_ml_dags/data/launches.json") as f:
         launches = json.load(f)
         image_urls = [launch["image"] for launch in launches["results"]]
         for image_url in image_urls:
             try:
                 response = requests.get(image_url)
                 image_filename = image_url.split("/")[-1]
-                target_file = f"/opt/airflow/data/images/{image_filename}"
+                target_file = f"/opt/airflow_ml_dags/data/images/{image_filename}"
                 with open(target_file, "wb") as f:
                     f.write(response.content)
                 print(f"Downloaded {image_url} to {target_file}")
@@ -39,7 +39,7 @@ with DAG(
 
     download_launches = BashOperator(
         task_id="download_launches",
-        bash_command="curl -o /opt/airflow/data/launches.json -L 'https://ll.thespacedevs.com/2.0.0/launch/upcoming'",
+        bash_command="curl -o /opt/airflow_ml_dags/data/launches.json -L 'https://ll.thespacedevs.com/2.0.0/launch/upcoming'",
         dag=dag,
     )
 
@@ -49,7 +49,7 @@ with DAG(
 
     notify = BashOperator(
         task_id="notify",
-        bash_command='echo "There are now $(ls /opt/airflow/data/images/ | wc -l) images."',
+        bash_command='echo "There are now $(ls /opt/airflow_ml_dags/data/images/ | wc -l) images."',
     )
 
     download_launches >> get_pictures >> notify

@@ -6,8 +6,8 @@ from airflow.providers.docker.operators.docker import DockerOperator
 from airflow.utils.dates import days_ago
 
 default_args = {
-    "owner": "airflow",
-    "email": ["airflow@example.com"],
+    "owner": "airflow_ml_dags",
+    "email": ["airflow_ml_dags@example.com"],
     "retries": 1,
     "retry_delay": timedelta(minutes=5),
 }

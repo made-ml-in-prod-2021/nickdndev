@@ -10,10 +10,10 @@ from airflow.utils.dates import days_ago
 # These args will get passed on to each operator
 # You can override them on a per-task basis during operator initialization
 default_args = {
-    "owner": "airflow",
+    "owner": "airflow_ml_dags",
     "depends_on_past": False,
     "start_date": days_ago(2),
-    "email": ["airflow@example.com"],
+    "email": ["airflow_ml_dags@example.com"],
     "retries": 1,
     "retry_delay": timedelta(minutes=5),
 }
@@ -27,7 +27,7 @@ with DAG(
     # t1, t2 and t3 are examples of tasks created by instantiating operators
     t1 = BashOperator(
         task_id="touch_file_1",
-        bash_command=f"touch /opt/airflow/data/1.txt",
+        bash_command=f"touch /opt/airflow_ml_dags/data/1.txt",
     )
 
     t2 = BashOperator(
@@ -37,7 +37,7 @@ with DAG(
     t3 = BashOperator(
         task_id="touch_file_2",
         depends_on_past=False,
-        bash_command=f"touch /opt/airflow/data/2.txt",
+        bash_command=f"touch /opt/airflow_ml_dags/data/2.txt",
     )
 
     t1 >> [t2, t3]

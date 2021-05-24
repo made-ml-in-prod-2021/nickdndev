@@ -5,7 +5,7 @@ from airflow.models import DAG
 import random
 
 default_args = {
-    "owner": "airflow",
+    "owner": "airflow_ml_dags",
     "depends_on_past": False,
     "start_date": datetime(2018, 5, 26),
     "email_on_failure": False,
