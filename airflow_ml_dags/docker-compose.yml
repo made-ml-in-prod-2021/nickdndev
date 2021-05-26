@@ -68,30 +68,6 @@ services:
     environment: *airflow_environment
     command: scheduler
 
-#  ml_base:
-#    build:
-#      context: images/airflow-ml-base
-#    image: mikhailmar/airflow-ml-base
-#    restart: "no"
-#
-#  predict:
-#    build:
-#      context: images/airflow-predict
-#    image: mikhailmar/airflow-predict
-#    restart: "no"
-#
-#  download:
-#    build:
-#      context: images/airflow-download
-#    image: mikhailmar/airflow-download
-#    restart: "no"
-#
-#  preprocess:
-#    build:
-#      context: images/airflow-preprocess
-#    image: mikhailmar/airflow-preprocess
-#    restart: "no"
-
   data_download:
     build:
       context: images/airflow-dataset-download
@@ -109,6 +85,12 @@ services:
     build:
       context: images/airflow-split
     image: airflow-split
+    restart: "no"
+
+  train:
+    build:
+      context: images/airflow-train
+    image: airflow-train
     restart: "no"
 
 volumes:

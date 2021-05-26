@@ -34,4 +34,12 @@ with DAG(
         volumes=[f"/home/nickdn/Documents/made/ml_in_prod/sample/data_airflow:/data"],
     )
 
-    preprocess >> split
+    train = DockerOperator(
+        image="airflow-train",
+        command="--input-dir /data/processed/{{ ds }} --output-dir /data/models/{{ ds }}",
+        task_id="docker-airflow-train",
+        do_xcom_push=False,
+        volumes=[f"/home/nickdn/Documents/made/ml_in_prod/sample/data_airflow:/data"],
+    )
+
+    preprocess >> split >> train
