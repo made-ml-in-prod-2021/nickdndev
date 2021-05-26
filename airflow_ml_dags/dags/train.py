@@ -42,4 +42,12 @@ with DAG(
         volumes=[f"/home/nickdn/Documents/made/ml_in_prod/sample/data_airflow:/data"],
     )
 
-    preprocess >> split >> train
+    validate = DockerOperator(
+        image="airflow-validate",
+        command="--input-dir /data/processed/{{ ds }} --input-model-dir /data/models/{{ ds }}",
+        task_id="docker-airflow-validate",
+        do_xcom_push=False,
+        volumes=[f"/home/nickdn/Documents/made/ml_in_prod/sample/data_airflow:/data"],
+    )
+
+    preprocess >> split >> train >> validate

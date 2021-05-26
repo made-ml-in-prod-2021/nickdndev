@@ -13,6 +13,11 @@ x-environment: &airflow_environment
 x-airflow-image: &airflow_image apache/airflow:2.0.0-python3.6
 # ====================================== /AIRFLOW ENVIRONMENT VARIABLES ======================================
 services:
+  init_image:
+    build:
+      context: images/airflow-base
+    image: airflow-base
+
   postgres:
     image: postgres:12-alpine
     environment:
@@ -91,6 +96,12 @@ services:
     build:
       context: images/airflow-train
     image: airflow-train
+    restart: "no"
+
+  validate:
+    build:
+      context: images/airflow-validate
+    image: airflow-validate
     restart: "no"
 
 volumes:
