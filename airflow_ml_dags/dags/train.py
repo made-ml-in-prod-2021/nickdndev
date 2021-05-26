@@ -11,17 +11,27 @@ default_args = {
     "retries": 1,
     "retry_delay": timedelta(minutes=5),
 }
+
 with DAG(
-        "data_download",
+        "train",
         default_args=default_args,
-        schedule_interval="@daily",
+        schedule_interval="@weekly",
         start_date=days_ago(2),
 ) as dag:
-    data_download = DockerOperator(
-        image="airflow-dataset-download",
-        command="/data/raw/{{ ds }}",
-        network_mode="bridge",
-        task_id="docker-airflow-dataset-download",
+    preprocess = DockerOperator(
+        image="airflow-preprocess",
+        command="--input-dir /data/raw/{{ ds }} --output-dir /data/processed/{{ ds }}",
+        task_id="docker-airflow-preprocess",
         do_xcom_push=False,
         volumes=[f"/home/nickdn/Documents/made/ml_in_prod/sample/data_airflow:/data"],
     )
+
+    split = DockerOperator(
+        image="airflow-split",
+        command="--input-dir /data/processed/{{ ds }}",
+        task_id="docker-airflow-split",
+        do_xcom_push=False,
+        volumes=[f"/home/nickdn/Documents/made/ml_in_prod/sample/data_airflow:/data"],
+    )
+
+    preprocess >> split

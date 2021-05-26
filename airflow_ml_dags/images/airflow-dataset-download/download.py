@@ -1,10 +1,11 @@
+import logging
 import pathlib
 
 import click
 from sklearn import datasets
 
-
 # https://docs.seldon.io/projects/seldon-core/en/v1.1.0/examples/iris.html
+logger = logging.getLogger(__name__)
 
 
 def download_dataset(output_dir: str):
@@ -17,8 +18,8 @@ def download_dataset(output_dir: str):
     y.to_csv(dataset_dir / "target.csv", index=False)
 
 
-@click.command("predict")
-@click.option("--output-dir")
+@click.command("download")
+@click.argument("output_dir")
 def download(output_dir: str):
     download_dataset(output_dir)
 

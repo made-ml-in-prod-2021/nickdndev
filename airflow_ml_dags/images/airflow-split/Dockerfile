@@ -8,6 +8,6 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
-COPY preprocess.py /preprocess.py
+COPY split.py /split.py
 
-ENTRYPOINT ["python", "preprocess.py"]
+ENTRYPOINT ["python", "split.py"]
