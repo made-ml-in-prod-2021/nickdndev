@@ -1,4 +1,7 @@
-FROM mikhailmar/airflow-ml-base:latest
+FROM airflow-base
+
+COPY requirements.txt .
+RUN pip install -r requirements.txt
 
 COPY predict.py /predict.py
 
