@@ -26,6 +26,13 @@ with DAG(
         filepath="data/raw/{{ ds }}/data.csv"
     )
 
+    wait_for_model = FileSensor(
+        task_id='wait-for-model',
+        poke_interval=5,
+        retries=5,
+        filepath="/data/models/{{ ds }}/model"
+    )
+
     predict = DockerOperator(
         image="airflow-predict",
         command="--input-dir /data/raw/{{ ds }} --input-model-dir /data/models/{{ ds }} --output-dir /data/predictions/{{ ds }}",
@@ -34,4 +41,4 @@ with DAG(
         volumes=[f"/home/nickdn/Documents/made/ml_in_prod/sample/data_airflow:/data"],
     )
 
-    wait_for_data >> predict
+    [wait_for_data, wait_for_model] >> predict
