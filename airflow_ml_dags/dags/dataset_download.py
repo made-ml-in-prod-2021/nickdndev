@@ -1,6 +1,7 @@
 from datetime import timedelta
 
 from airflow import DAG
+from airflow.models import Variable
 from airflow.providers.docker.operators.docker import DockerOperator
 from airflow.utils.dates import days_ago
 
@@ -23,5 +24,5 @@ with DAG(
         network_mode="bridge",
         task_id="docker-airflow-dataset-download",
         do_xcom_push=False,
-        volumes=[f"/home/nickdn/Documents/made/ml_in_prod/sample/data_airflow:/data"],
+        volumes=[f"{Variable.get('DATA_FOLDER_PATH')}:/data"],
     )

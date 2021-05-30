@@ -8,7 +8,8 @@ x-environment: &airflow_environment
   - AIRFLOW__CORE__STORE_DAG_CODE=True
   - AIRFLOW__CORE__STORE_SERIALIZED_DAGS=True
   - AIRFLOW__WEBSERVER__EXPOSE_CONFIG=True
-  - AIRFLOW_VAR_DATA_PATH=/home/nickdn/Documents/made/ml_in_prod/sample/data_airflow
+  - AIRFLOW_VAR_DATA_FOLDER_PATH=${DATA_FOLDER_PATH}
+
 
 x-airflow-image: &airflow_image apache/airflow:2.0.0-python3.6
 # ====================================== /AIRFLOW ENVIRONMENT VARIABLES ======================================

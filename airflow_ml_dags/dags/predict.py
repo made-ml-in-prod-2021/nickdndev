@@ -1,6 +1,7 @@
 from datetime import timedelta
 
 from airflow import DAG
+from airflow.models import Variable
 from airflow.providers.docker.operators.docker import DockerOperator
 from airflow.sensors.filesystem import FileSensor
 from airflow.utils.dates import days_ago
@@ -38,7 +39,7 @@ with DAG(
         command="--input-dir /data/raw/{{ ds }} --input-model-dir /data/models/{{ ds }} --output-dir /data/predictions/{{ ds }}",
         task_id="docker-airflow-predict",
         do_xcom_push=False,
-        volumes=[f"/home/nickdn/Documents/made/ml_in_prod/sample/data_airflow:/data"],
+        volumes=[f"{Variable.get('DATA_FOLDER_PATH')}:/data"],
     )
 
     [wait_for_data, wait_for_model] >> predict
