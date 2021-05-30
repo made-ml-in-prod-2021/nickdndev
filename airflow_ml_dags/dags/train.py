@@ -1,22 +1,14 @@
-from datetime import timedelta
-
 from airflow import DAG
-from airflow.models import Variable
 from airflow.providers.docker.operators.docker import DockerOperator
 from airflow.sensors.filesystem import FileSensor
 from airflow.utils.dates import days_ago
 
-default_args = {
-    "owner": "airflow_ml_dags",
-    "depends_on_past": False,
-    "email": ["airflow_ml_dags@example.com"],
-    "retries": 1,
-    "retry_delay": timedelta(minutes=5),
-}
+from constants import DEFAULT_ARGS, DATASET_RAW_DATA_FILE_NAME, DATASET_RAW_DIR, \
+    DATASET_RAW_TARGET_FILE_NAME, MOUNT_DATA_FOLDER, DATASET_PROCESSED_DIR, MODELS_DIR
 
 with DAG(
         "train",
-        default_args=default_args,
+        default_args=DEFAULT_ARGS,
         schedule_interval="@weekly",
         start_date=days_ago(2),
 ) as dag:
@@ -24,46 +16,46 @@ with DAG(
         task_id='wait-for-data',
         poke_interval=5,
         retries=5,
-        filepath="data/raw/{{ ds }}/data.csv"
+        filepath='/'.join([DATASET_RAW_DIR, DATASET_RAW_DATA_FILE_NAME])
     )
 
     wait_for_target = FileSensor(
         task_id='wait-for-target',
         poke_interval=5,
         retries=5,
-        filepath="data/raw/{{ ds }}/target.csv"
+        filepath='/'.join([DATASET_RAW_DIR, DATASET_RAW_TARGET_FILE_NAME])
     )
 
     preprocess = DockerOperator(
         image="airflow-preprocess",
-        command="--input-dir /data/raw/{{ ds }} --output-dir /data/processed/{{ ds }}",
+        command=f"--input-dir {DATASET_RAW_DIR} --output-dir {DATASET_PROCESSED_DIR} ",
         task_id="docker-airflow-preprocess",
         do_xcom_push=False,
-        volumes=[f"{Variable.get('DATA_FOLDER_PATH')}:/data"],
+        volumes=MOUNT_DATA_FOLDER
     )
 
     split = DockerOperator(
         image="airflow-split",
-        command="--input-dir /data/processed/{{ ds }}",
+        command=f"--input-dir {DATASET_PROCESSED_DIR}",
         task_id="docker-airflow-split",
         do_xcom_push=False,
-        volumes=[f"{Variable.get('DATA_FOLDER_PATH')}:/data"],
+        volumes=MOUNT_DATA_FOLDER,
     )
 
     train = DockerOperator(
         image="airflow-train",
-        command="--input-dir /data/processed/{{ ds }} --output-dir /data/models/{{ ds }}",
+        command=f"--input-dir {DATASET_PROCESSED_DIR} --output-dir {MODELS_DIR}",
         task_id="docker-airflow-train",
         do_xcom_push=False,
-        volumes=[f"{Variable.get('DATA_FOLDER_PATH')}:/data"],
+        volumes=MOUNT_DATA_FOLDER,
     )
 
     validate = DockerOperator(
         image="airflow-validate",
-        command="--input-dir /data/processed/{{ ds }} --input-model-dir /data/models/{{ ds }}",
+        command=f"--input-dir {DATASET_PROCESSED_DIR} --input-model-dir {MODELS_DIR}",
         task_id="docker-airflow-validate",
         do_xcom_push=False,
-        volumes=[f"{Variable.get('DATA_FOLDER_PATH')}:/data"],
+        volumes=MOUNT_DATA_FOLDER,
     )
 
     [wait_for_data, wait_for_target] >> preprocess >> split >> train >> validate

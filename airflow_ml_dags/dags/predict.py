@@ -1,22 +1,14 @@
-from datetime import timedelta
-
 from airflow import DAG
-from airflow.models import Variable
 from airflow.providers.docker.operators.docker import DockerOperator
 from airflow.sensors.filesystem import FileSensor
 from airflow.utils.dates import days_ago
 
-default_args = {
-    "owner": "airflow_ml_dags",
-    "depends_on_past": False,
-    "email": ["airflow_ml_dags@example.com"],
-    "retries": 1,
-    "retry_delay": timedelta(minutes=5),
-}
+from constants import DEFAULT_ARGS, MOUNT_DATA_FOLDER, DATASET_RAW_DATA_FILE_NAME, DATASET_RAW_DIR, MODEL_FILE_NAME, \
+    MODELS_DIR, DATASET_PREDICTION_DIR
 
 with DAG(
         "predict",
-        default_args=default_args,
+        default_args=DEFAULT_ARGS,
         schedule_interval="@daily",
         start_date=days_ago(8),
 ) as dag:
@@ -24,22 +16,22 @@ with DAG(
         task_id='wait-for-data',
         poke_interval=5,
         retries=5,
-        filepath="data/raw/{{ ds }}/data.csv"
+        filepath='/'.join([DATASET_RAW_DIR, DATASET_RAW_DATA_FILE_NAME])
     )
 
     wait_for_model = FileSensor(
         task_id='wait-for-model',
         poke_interval=5,
         retries=5,
-        filepath="/data/models/{{ ds }}/model"
+        filepath='/'.join([MODELS_DIR, MODEL_FILE_NAME])
     )
 
     predict = DockerOperator(
         image="airflow-predict",
-        command="--input-dir /data/raw/{{ ds }} --input-model-dir /data/models/{{ ds }} --output-dir /data/predictions/{{ ds }}",
+        command=f"--input-dir {DATASET_RAW_DIR} --input-model-dir {MODELS_DIR} --output-dir {DATASET_PREDICTION_DIR}",
         task_id="docker-airflow-predict",
         do_xcom_push=False,
-        volumes=[f"{Variable.get('DATA_FOLDER_PATH')}:/data"],
+        volumes=MOUNT_DATA_FOLDER,
     )
 
     [wait_for_data, wait_for_model] >> predict
