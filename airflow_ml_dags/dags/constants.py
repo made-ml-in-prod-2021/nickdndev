@@ -4,7 +4,7 @@ from airflow.models import Variable
 
 DEFAULT_ARGS = {
     "owner": "airflow",
-    "email": ["airflow_ml_dags@example.com"],
+    "email": ["troubleshooting@example.com"],
     "retries": 1,
     "retry_delay": timedelta(minutes=5),
 }
