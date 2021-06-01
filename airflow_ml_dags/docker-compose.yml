@@ -12,7 +12,7 @@ x-environment: &airflow_environment
   - AIRFLOW__SMTP__SMTP_PORT=587
   - AIRFLOW__SMTP__SMTP_USER=troubleshooting@gmail.com
   - AIRFLOW__SMTP__SMTP_PASSWORD="${DIGIT_APP_PASSWORD}"
-  - AIRFLOW_VAR_DATA_FOLDER_PATH=${DATA_FOLDER_PATH}
+  - DATA_FOLDER_PATH=${DATA_FOLDER_PATH}
 
 
 x-airflow-image: &airflow_image apache/airflow:2.0.0-python3.6

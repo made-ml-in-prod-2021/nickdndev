@@ -1,3 +1,4 @@
+import os
 from datetime import timedelta
 
 from airflow.models import Variable
@@ -18,5 +19,5 @@ DATASET_RAW_DATA_FILE_NAME = "data.csv"
 DATASET_RAW_TARGET_FILE_NAME = "target.csv"
 MODEL_FILE_NAME = "model"
 
-MOUNT_DATA_FOLDER = [f"{Variable.get('DATA_FOLDER_PATH')}:/data"]
+MOUNT_DATA_FOLDER = [f"{os.environ['DATA_FOLDER_PATH']}:/data"]
 
