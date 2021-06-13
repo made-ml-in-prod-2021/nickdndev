@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: online-inference-ml
+  labels:
+    app: online-inference-ml
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: online-inference-ml
+  template:
+    metadata:
+      name: online-inference-ml
+      labels:
+        app: online-inference-ml
+    spec:
+      containers:
+        - image: nickml/online_inference:v1
+          name: online-inference-ml
+          ports:
+            - containerPort: 8000
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
