@@ -1,9 +1,11 @@
 import logging
 import os
 import pickle
+from time import sleep
 from typing import List, Optional
 
 import pandas as pd
+import schedule as schedule
 import uvicorn
 from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
@@ -55,6 +57,8 @@ def main():
 @app.on_event("startup")
 def load_model():
     logger.info(f"Loading model...")
+    sleep(30)
+    schedule.every(120).seconds.do(job)
     global model
     model_path = os.getenv("PATH_TO_MODEL")
     if model_path is None:
@@ -68,6 +72,7 @@ def load_model():
 
 @app.get("/healthz")
 def health() -> bool:
+    logger.info(f"Sleeping service....")
     return not (model is None)
 
 
@@ -75,6 +80,8 @@ def health() -> bool:
 def predict(request: DiagnosisRequest):
     return make_predict(request.data, request.features, model)
 
+def job():
+    raise Exception('k8s exception')
 
 if __name__ == "__main__":
     uvicorn.run("app:app", host="0.0.0.0", port=os.getenv("PORT", 8000))
